@@ -34,11 +34,12 @@ def main():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 on_mouse_down(event)
+                screen.fill(backColor)
+                target.draw(screen)
         # Logic
         target = Target((random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height())))
         # Render/Display
-        screen.fill(backColor)
-        target.draw(screen)
+        
         pygame.display.flip()
         clock.tick(frames)
     pygame.quit()
