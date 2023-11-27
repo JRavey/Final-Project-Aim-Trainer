@@ -1,6 +1,18 @@
 import random
 import pygame
 
+class Target():
+
+    def __init__(self, pos=(0,0), size=15):
+        self.pos = pos
+        self.size = size
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, pygame.Color("cadetblue1"), self.pos, self.size)
+        pygame.draw.circle(surface, pygame.Color("white"), self.pos, self.size * 0.8)
+        pygame.draw.circle(surface, pygame.Color("cadetblue1"), self.pos, self.size * 0.6)
+        pygame.draw.circle(surface, pygame.Color("white"), self.pos, self.size * 0.4)
+
 def on_mouse_down(event):
   print("Mouse down at", event.pos)
 
