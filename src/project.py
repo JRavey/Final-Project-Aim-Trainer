@@ -19,6 +19,9 @@ def on_mouse_down(event):
 def main():
     pygame.init()
     resolution = (800, 600)
+    pygame.display.set_caption("Aim Trainer")
+    clock = pygame.time.Clock()
+    dt = 0
     frames = 12
     backColor = pygame.Color(0, 0, 0)
     screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
@@ -37,6 +40,7 @@ def main():
         screen.fill(backColor)
         target.draw(screen)
         pygame.display.flip()
+        clock.tick(frames)
     pygame.quit()
 
 if __name__ == "__main__":
