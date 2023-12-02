@@ -1,20 +1,27 @@
 import random
 import pygame
 import time
+import math
 
 class Target():
 
-    def __init__(self, pos=(0,0), size=30):
-        self.pos = pos
+    def __init__(self, x, y, size=30):
+        self.x = x
+        self.y = y
         self.size = size
 
     def draw(self, surface):
-        pygame.draw.circle(surface, pygame.Color("cadetblue1"), self.pos, self.size)
-        pygame.draw.circle(surface, pygame.Color("white"), self.pos, self.size * 0.8)
-        pygame.draw.circle(surface, pygame.Color("cadetblue1"), self.pos, self.size * 0.6)
-        pygame.draw.circle(surface, pygame.Color("white"), self.pos, self.size * 0.4)
+        pygame.draw.circle(surface, pygame.Color("cadetblue1"), (self.x, self.y), self.size)
+        pygame.draw.circle(surface, pygame.Color("white"), (self.x, self.y), self.size * 0.8)
+        pygame.draw.circle(surface, pygame.Color("cadetblue1"), (self.x, self.y), self.size * 0.6)
+        pygame.draw.circle(surface, pygame.Color("white"), (self.x, self.y), self.size * 0.4)
 
     def collide (self, x, y):
+        dis = math.sqrt((x - self.x)**2 + (y - self.y)**2)
+        print(dis)
+        print(self.size)
+        print(dis <= self.size)
+        return dis <= self.size
 
 def on_mouse_down(event):
   print("Mouse down at", event.pos)
@@ -29,14 +36,18 @@ def main():
     backColor = pygame.Color(0, 0, 0)
     screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
     running = True
+    
 
     targetPressed = 0
     clicks = 0
     misses = 0
     start_time = time.time()
     
+    target = Target(random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height()))
+    target.draw(screen)
     while running:
         # Loop
+        mousePos = pygame.mouse.get_pos()
         click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -45,10 +56,15 @@ def main():
                 click = True
                 clicks += 1
                 on_mouse_down(event)
-                screen.fill(backColor)
-                target.draw(screen)
+                # target.draw(screen)
         # Logic
-        target = Target((random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height())))
+
+        if click and target.collide(mousePos[0], mousePos[1]):
+            print("Target Collide")
+            target = Target(random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height()))
+            targetPressed += 1
+            screen.fill(backColor)
+            target.draw(screen)
         # Render/Display
         
         pygame.display.flip()
