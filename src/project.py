@@ -61,6 +61,18 @@ def end(window, timePassed, pressed, clicks, font):
     window.blit(pressedText, (middle(pressedText),300))
     window.blit(accuracyText, (middle(accuracyText),400))
 
+    filename = "test.txt"
+    try:
+        file = open(filename, "r")
+        print("File opened for reading")
+        print(file.readlines())
+    except FileNotFoundError:
+        file = open(filename, "w")
+        print(f"File not found. Creating a new {filename} instead")
+    finally:
+        file.close
+        print("File closed.")
+
     pygame.display.update()
 
     run = True
@@ -86,7 +98,7 @@ def main():
     running = True
     start = time.time()
     padding = 30
-    startTime = 30
+    startTime = 5
 
     font = pygame.font.SysFont("comicsans", 24)
     
