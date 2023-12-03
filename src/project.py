@@ -41,9 +41,9 @@ def draw_top_bar(window, timer, timePassed, pressed, font):
     speedText = font.render(f"Speed: {speed} t/s", 1, "black")
     pressedText = font.render(f"Hits: {pressed}", 1, "black")
 
-    window.blit(timeText, (5,5))
-    window.blit(speedText, (200,5))
-    window.blit(pressedText, (450,5))
+    window.blit(timeText, (middle(timeText),5))
+    window.blit(speedText, (100,5))
+    window.blit(pressedText, (600,5))
 
 def end(window, timePassed, pressed, clicks, font):
     window.fill(pygame.Color(0, 0, 0))
@@ -78,7 +78,6 @@ def end(window, timePassed, pressed, clicks, font):
 
     with open(filename, "r") as file:
         leaderboard = file.read().splitlines()
-        # leaderboard = list(file)
     list = []
     for number in leaderboard:
         list.append(int(number))
@@ -90,7 +89,29 @@ def end(window, timePassed, pressed, clicks, font):
     with open(filename, "w") as file:
         file.writelines([str(x) + '\n' for x in list])
 
-    print(list)
+    leaderboardText = font.render(f"Leaderboard:", 1, "white")
+
+    if len(list) < 2:
+        firstText = font.render(f"First: {list[0]}", 1, "white")
+        window.blit(firstText, (50, 150))
+    elif len(list) < 3:
+        firstText = font.render(f"First: {list[0]}", 1, "white")
+        window.blit(firstText, (50, 150))
+        secondText = font.render(f"Second: {list[1]}", 1, "white")
+        window.blit(secondText, (50, 200))
+    else:
+        firstText = font.render(f"First: {list[0]}", 1, "white")
+        window.blit(firstText, (50, 150))
+        secondText = font.render(f"Second: {list[1]}", 1, "white")
+        window.blit(secondText, (50, 200))
+        thirdText = font.render(f"Third: {list[2]}", 1, "white")
+        window.blit(thirdText, (50, 250))
+
+    window.blit(leaderboardText, (50, 100))
+    
+    
+    
+
 
     pygame.display.update()
 
