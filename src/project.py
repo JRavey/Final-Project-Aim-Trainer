@@ -3,6 +3,9 @@ import pygame
 import time
 import math
 
+
+
+
 class Target():
 
     # Defines Target
@@ -23,10 +26,25 @@ class Target():
         dis = math.sqrt((x - self.x)**2 + (y - self.y)**2)
         return dis <= self.size
 
+def format_time(timeAmount):
+    mil = math.floor(int(timeAmount * 1000 % 1000) / 100)
+    second = int(round(timeAmount % 60, 1))
+
+
+    return f"{second:02d}.{mil}"
+
+def draw_top_bar(window, timePassed, pressed, font):
+    pygame.draw.rect(window, "grey", (0,0, window.get_width(), 50))
+    timeText = font.render(f"Time: {format_time(timePassed)}", 1, "black")
+
+    window.blit(timeText, (5,5))
+
+
 
 def main():
     # Sets things
     pygame.init()
+    pygame.font.init()
     resolution = (800, 600)
     pygame.display.set_caption("Aim Trainer")
     clock = pygame.time.Clock()
@@ -35,6 +53,9 @@ def main():
     backColor = pygame.Color(0, 0, 0)
     screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
     running = True
+    start = time.time()
+
+    font = pygame.font.SysFont("comicsans", 24)
     
     # Collision Variables
     targetPressed = 0
@@ -51,6 +72,8 @@ def main():
         # Loop
         mousePos = pygame.mouse.get_pos()
         click = False
+        timePassed = time.time() - start
+        
         for event in pygame.event.get():
 
             # When the game is closed
@@ -71,6 +94,7 @@ def main():
             target.draw(screen)
 
         # Render/Display
+        draw_top_bar(screen, timePassed, targetPressed, font)
         pygame.display.flip()
         clock.tick(frames)
     pygame.quit()
