@@ -61,6 +61,7 @@ def main():
     screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
     running = True
     start = time.time()
+    padding = 30
 
     font = pygame.font.SysFont("comicsans", 24)
     
@@ -71,7 +72,7 @@ def main():
     start_time = time.time()
     
     # Makes sure there is target when started
-    target = Target(random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height()))
+    target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
     target.draw(screen)
 
     # Game
@@ -95,7 +96,7 @@ def main():
 
         # Collision Detection
         if click and target.collide(mousePos[0], mousePos[1]):
-            target = Target(random.randrange(0, screen.get_width()), random.randrange(0, screen.get_height()))
+            target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
             targetPressed += 1
             screen.fill(backColor)
             target.draw(screen)
