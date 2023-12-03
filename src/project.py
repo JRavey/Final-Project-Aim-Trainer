@@ -45,8 +45,32 @@ def draw_top_bar(window, timePassed, pressed, font, misses):
     window.blit(speedText, (200,5))
     window.blit(pressedText, (450,5))
 
+def end(window, timePassed, pressed, clicks, font):
+    window.fill(pygame.Color(0, 0, 0))
 
+    timeText = font.render(f"Time: {format_time(timePassed)}", 1, "white")
 
+    speed = round(pressed / timePassed, 1)
+    speedText = font.render(f"Speed: {speed} t/s", 1, "white")
+    pressedText = font.render(f"Hits: {pressed}", 1, "white")
+    accuracy = round(pressed / clicks * 100, 1)
+    accuracyText = font.render(f"Accuracy: {accuracy}%", 1, "white")
+
+    window.blit(timeText, (middle(timeText),100))
+    window.blit(speedText, (middle(speedText),200))
+    window.blit(pressedText, (middle(pressedText),300))
+    window.blit(accuracyText, (middle(accuracyText),400))
+
+    pygame.display.update()
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+                quit()
+
+def middle( surface):
+    return 800 / 2 - surface.get_width() / 2
 
 def main():
     # Sets things
@@ -69,7 +93,6 @@ def main():
     targetPressed = 0
     clicks = 0
     misses = 0
-    start_time = time.time()
     
     # Makes sure there is target when started
     target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
@@ -82,6 +105,7 @@ def main():
         click = False
         timePassed = time.time() - start
         
+        
         for event in pygame.event.get():
 
             # When the game is closed
@@ -93,7 +117,9 @@ def main():
                 click = True
                 clicks += 1
         # Logic
-
+        if int(round(timePassed % 60, 1)) >= 10:
+            end(screen, timePassed, targetPressed, clicks, font)
+        print(timePassed)
         # Collision Detection
         if click and target.collide(mousePos[0], mousePos[1]):
             target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
