@@ -73,6 +73,25 @@ def end(window, timePassed, pressed, clicks, font):
         file.close
         print("File closed.")
 
+    with open(filename, "a") as file:
+        file.writelines(str(pressed) + "\n")
+
+    with open(filename, "r") as file:
+        leaderboard = file.read().splitlines()
+        # leaderboard = list(file)
+    list = []
+    for number in leaderboard:
+        list.append(int(number))
+    list.sort(reverse=True)
+
+    while len(list) > 3:
+        list.pop()
+
+    with open(filename, "w") as file:
+        file.writelines([str(x) + '\n' for x in list])
+
+    print(list)
+
     pygame.display.update()
 
     run = True
@@ -118,7 +137,6 @@ def main():
         click = False
         timePassed = time.time() - start
         timeLeft = startTime - timePassed 
-        print(timeLeft)
         
         
         for event in pygame.event.get():
@@ -134,7 +152,6 @@ def main():
         # Logic
         if int(round(timePassed % 60, 1)) >= startTime:
             end(screen, timePassed, targetPressed, clicks, font)
-        #print(timePassed)
         # Collision Detection
         if click and target.collide(mousePos[0], mousePos[1]):
             target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
