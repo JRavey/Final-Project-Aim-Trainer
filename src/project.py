@@ -33,9 +33,9 @@ def format_time(timeAmount):
 
     return f"{second:02d}.{mil}"
 
-def draw_top_bar(window, timePassed, pressed, font, misses):
+def draw_top_bar(window, timer, timePassed, pressed, font):
     pygame.draw.rect(window, "grey", (0,0, window.get_width(), 50))
-    timeText = font.render(f"Time: {format_time(timePassed)}", 1, "black")
+    timeText = font.render(f"Time: {format_time(timer)}", 1, "black")
 
     speed = round(pressed / timePassed, 1)
     speedText = font.render(f"Speed: {speed} t/s", 1, "black")
@@ -86,6 +86,7 @@ def main():
     running = True
     start = time.time()
     padding = 30
+    startTime = 30
 
     font = pygame.font.SysFont("comicsans", 24)
     
@@ -104,6 +105,8 @@ def main():
         mousePos = pygame.mouse.get_pos()
         click = False
         timePassed = time.time() - start
+        timeLeft = startTime - timePassed 
+        print(timeLeft)
         
         
         for event in pygame.event.get():
@@ -117,9 +120,9 @@ def main():
                 click = True
                 clicks += 1
         # Logic
-        if int(round(timePassed % 60, 1)) >= 10:
+        if int(round(timePassed % 60, 1)) >= startTime:
             end(screen, timePassed, targetPressed, clicks, font)
-        print(timePassed)
+        #print(timePassed)
         # Collision Detection
         if click and target.collide(mousePos[0], mousePos[1]):
             target = Target(random.randrange(0 + padding, screen.get_width() - padding), random.randrange(0 + padding + 50, screen.get_height() - padding))
@@ -128,7 +131,7 @@ def main():
             target.draw(screen)
 
         # Render/Display
-        draw_top_bar(screen, timePassed, targetPressed, font, misses)
+        draw_top_bar(screen, timeLeft, timePassed, targetPressed, font)
         pygame.display.flip()
         clock.tick(frames)
     pygame.quit()
