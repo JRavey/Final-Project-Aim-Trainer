@@ -61,7 +61,7 @@ def end(window, timePassed, pressed, clicks, font):
     window.blit(pressedText, (middle(pressedText),300))
     window.blit(accuracyText, (middle(accuracyText),400))
 
-    filename = "test.txt"
+    filename = "score.txt"
     try:
         file = open(filename, "r")
         print("File opened for reading")
