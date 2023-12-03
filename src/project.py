@@ -109,9 +109,6 @@ def end(window, timePassed, pressed, clicks, font):
 
     window.blit(leaderboardText, (50, 100))
     
-    
-    
-
 
     pygame.display.update()
 
@@ -138,7 +135,7 @@ def main():
     running = True
     start = time.time()
     padding = 30
-    startTime = 5
+    startTime = 30
 
     font = pygame.font.SysFont("comicsans", 24)
     
