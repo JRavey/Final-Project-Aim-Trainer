@@ -33,11 +33,18 @@ def format_time(timeAmount):
 
     return f"{second:02d}.{mil}"
 
-def draw_top_bar(window, timePassed, pressed, font):
+def draw_top_bar(window, timePassed, pressed, font, misses):
     pygame.draw.rect(window, "grey", (0,0, window.get_width(), 50))
     timeText = font.render(f"Time: {format_time(timePassed)}", 1, "black")
 
+    speed = round(pressed / timePassed, 1)
+    speedText = font.render(f"Speed: {speed} t/s", 1, "black")
+    pressedText = font.render(f"Hits: {pressed}", 1, "black")
+
     window.blit(timeText, (5,5))
+    window.blit(speedText, (200,5))
+    window.blit(pressedText, (450,5))
+
 
 
 
@@ -94,7 +101,7 @@ def main():
             target.draw(screen)
 
         # Render/Display
-        draw_top_bar(screen, timePassed, targetPressed, font)
+        draw_top_bar(screen, timePassed, targetPressed, font, misses)
         pygame.display.flip()
         clock.tick(frames)
     pygame.quit()
